@@ -1,5 +1,7 @@
 package Lesson6;
 
+import okhttp3.OkHttpClient;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -9,6 +11,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args)  throws IOException {
+        //OkHttpClient okHttpClient = new OkHttpClient();
         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.weather.yandex.ru/v2/forecast?lat=59&lon=30&limit=5&hours=false").openConnection();
         httpURLConnection.setRequestProperty("X-Yandex-API-Key", "a1f43bb2-52af-4ee9-bd55-75b8b96a2eeb");
         System.out.println(httpURLConnection.getResponseCode());

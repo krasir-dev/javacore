@@ -1,18 +1,19 @@
 package Lesson7.project;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class UserInterface {
 
     private final Controller controller = new Controller();
-
+    public String city;
     public void runApplication() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            //System.out.println("Введите название города на английском языке");
-            //String city = scanner.nextLine();
-            String city ="Irkutsk";
+            System.out.println("Введите название города на английском языке");
+            String city = scanner.nextLine();
+            //city ="Irkutsk";
             setGlobalCity(city);
 
             System.out.println("Введите ответ: 1 - Получить текущую погоду, " +
@@ -31,7 +32,7 @@ public class UserInterface {
 
             try {
                 notifyController(result);
-            } catch (IOException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
 
@@ -62,7 +63,7 @@ public class UserInterface {
         }
     }
 
-    private void notifyController(String input) throws IOException {
+    private void notifyController(String input) throws IOException, ParseException {
         controller.onUserInput(input);
     }
 

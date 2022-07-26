@@ -2,7 +2,6 @@
 package Lesson7.project;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 //import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,37 +13,37 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Headline",
-    "DailyForecasts"
+    "Minimum",
+    "Maximum"
 })
 //@Generated("jsonschema2pojo")
-public class WeatherResponse {
+public class Temperature {
 
-    @JsonProperty("Headline")
-    private Headline headline;
-    @JsonProperty("DailyForecasts")
-    private List<DailyForecast> dailyForecasts = null;
+    @JsonProperty("Minimum")
+    private Minimum minimum;
+    @JsonProperty("Maximum")
+    private Maximum maximum;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Headline")
-    public Headline getHeadline() {
-        return headline;
+    @JsonProperty("Minimum")
+    public Minimum getMinimum() {
+        return minimum;
     }
 
-    @JsonProperty("Headline")
-    public void setHeadline(Headline headline) {
-        this.headline = headline;
+    @JsonProperty("Minimum")
+    public void setMinimum(Minimum minimum) {
+        this.minimum = minimum;
     }
 
-    @JsonProperty("DailyForecasts")
-    public List<DailyForecast> getDailyForecasts() {
-        return dailyForecasts;
+    @JsonProperty("Maximum")
+    public Maximum getMaximum() {
+        return maximum;
     }
 
-    @JsonProperty("DailyForecasts")
-    public void setDailyForecasts(List<DailyForecast> dailyForecasts) {
-        this.dailyForecasts = dailyForecasts;
+    @JsonProperty("Maximum")
+    public void setMaximum(Maximum maximum) {
+        this.maximum = maximum;
     }
 
     @JsonAnyGetter
@@ -60,14 +59,14 @@ public class WeatherResponse {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(WeatherResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("headline");
+        sb.append(Temperature.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("minimum");
         sb.append('=');
-        sb.append(((this.headline == null)?"<null>":this.headline));
+        sb.append(((this.minimum == null)?"<null>":this.minimum));
         sb.append(',');
-        sb.append("dailyForecasts");
+        sb.append("maximum");
         sb.append('=');
-        sb.append(((this.dailyForecasts == null)?"<null>":this.dailyForecasts));
+        sb.append(((this.maximum == null)?"<null>":this.maximum));
         sb.append(',');
         sb.append("additionalProperties");
         sb.append('=');

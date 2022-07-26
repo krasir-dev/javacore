@@ -6,6 +6,7 @@ import Lesson7.project.enums.Functionality;
 import Lesson7.project.enums.Periods;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class Controller {
         variantResult.put(2, Functionality.GET_WEATHER_IN_NEXT_5_DAYS);
     }
 
-    public void onUserInput(String input) throws IOException {
+    public void onUserInput(String input) throws IOException, ParseException {
         int command = Integer.parseInt(input);
         if (!variantResult.containsKey(command)) {
             throw new IOException("There is no command for command-key " + command);
@@ -35,11 +36,11 @@ public class Controller {
         }
     }
 
-    public void getCurrentWeather() throws IOException {
+    public void getCurrentWeather() throws IOException, ParseException {
         weatherProvider.getWeather(Periods.NOW);
     }
 
-    public void getWeatherIn5Days() throws IOException {
+    public void getWeatherIn5Days() throws IOException, ParseException {
         //throw new RuntimeException("Implement in h/w");
         weatherProvider.getWeather(Periods.FIVE_DAYS);
     }
