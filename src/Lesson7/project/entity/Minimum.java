@@ -1,8 +1,7 @@
 
-package Lesson7.project;
+package Lesson7.project.entity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 //import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,37 +13,50 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Headline",
-    "DailyForecasts"
+    "Value",
+    "Unit",
+    "UnitType"
 })
 //@Generated("jsonschema2pojo")
-public class WeatherResponse {
+public class Minimum {
 
-    @JsonProperty("Headline")
-    private Headline headline;
-    @JsonProperty("DailyForecasts")
-    private List<DailyForecast> dailyForecasts = null;
+    @JsonProperty("Value")
+    private Double value;
+    @JsonProperty("Unit")
+    private String unit;
+    @JsonProperty("UnitType")
+    private Integer unitType;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Headline")
-    public Headline getHeadline() {
-        return headline;
+    @JsonProperty("Value")
+    public Double getValue() {
+        return value;
     }
 
-    @JsonProperty("Headline")
-    public void setHeadline(Headline headline) {
-        this.headline = headline;
+    @JsonProperty("Value")
+    public void setValue(Double value) {
+        this.value = value;
     }
 
-    @JsonProperty("DailyForecasts")
-    public List<DailyForecast> getDailyForecasts() {
-        return dailyForecasts;
+    @JsonProperty("Unit")
+    public String getUnit() {
+        return unit;
     }
 
-    @JsonProperty("DailyForecasts")
-    public void setDailyForecasts(List<DailyForecast> dailyForecasts) {
-        this.dailyForecasts = dailyForecasts;
+    @JsonProperty("Unit")
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    @JsonProperty("UnitType")
+    public Integer getUnitType() {
+        return unitType;
+    }
+
+    @JsonProperty("UnitType")
+    public void setUnitType(Integer unitType) {
+        this.unitType = unitType;
     }
 
     @JsonAnyGetter
@@ -60,14 +72,18 @@ public class WeatherResponse {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(WeatherResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("headline");
+        sb.append(Minimum.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("value");
         sb.append('=');
-        sb.append(((this.headline == null)?"<null>":this.headline));
+        sb.append(((this.value == null)?"<null>":this.value));
         sb.append(',');
-        sb.append("dailyForecasts");
+        sb.append("unit");
         sb.append('=');
-        sb.append(((this.dailyForecasts == null)?"<null>":this.dailyForecasts));
+        sb.append(((this.unit == null)?"<null>":this.unit));
+        sb.append(',');
+        sb.append("unitType");
+        sb.append('=');
+        sb.append(((this.unitType == null)?"<null>":this.unitType));
         sb.append(',');
         sb.append("additionalProperties");
         sb.append('=');

@@ -1,7 +1,8 @@
 
-package Lesson7.project;
+package Lesson7.project.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 //import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -13,50 +14,37 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Value",
-    "Unit",
-    "UnitType"
+    "Headline",
+    "DailyForecasts"
 })
 //@Generated("jsonschema2pojo")
-public class Maximum {
+public class WeatherResponse {
 
-    @JsonProperty("Value")
-    private Double value;
-    @JsonProperty("Unit")
-    private String unit;
-    @JsonProperty("UnitType")
-    private Integer unitType;
+    @JsonProperty("Headline")
+    private Headline headline;
+    @JsonProperty("DailyForecasts")
+    private List<DailyForecast> dailyForecasts = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Value")
-    public Double getValue() {
-        return value;
+    @JsonProperty("Headline")
+    public Headline getHeadline() {
+        return headline;
     }
 
-    @JsonProperty("Value")
-    public void setValue(Double value) {
-        this.value = value;
+    @JsonProperty("Headline")
+    public void setHeadline(Headline headline) {
+        this.headline = headline;
     }
 
-    @JsonProperty("Unit")
-    public String getUnit() {
-        return unit;
+    @JsonProperty("DailyForecasts")
+    public List<DailyForecast> getDailyForecasts() {
+        return dailyForecasts;
     }
 
-    @JsonProperty("Unit")
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    @JsonProperty("UnitType")
-    public Integer getUnitType() {
-        return unitType;
-    }
-
-    @JsonProperty("UnitType")
-    public void setUnitType(Integer unitType) {
-        this.unitType = unitType;
+    @JsonProperty("DailyForecasts")
+    public void setDailyForecasts(List<DailyForecast> dailyForecasts) {
+        this.dailyForecasts = dailyForecasts;
     }
 
     @JsonAnyGetter
@@ -72,18 +60,14 @@ public class Maximum {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Maximum.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("value");
+        sb.append(WeatherResponse.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("headline");
         sb.append('=');
-        sb.append(((this.value == null)?"<null>":this.value));
+        sb.append(((this.headline == null)?"<null>":this.headline));
         sb.append(',');
-        sb.append("unit");
+        sb.append("dailyForecasts");
         sb.append('=');
-        sb.append(((this.unit == null)?"<null>":this.unit));
-        sb.append(',');
-        sb.append("unitType");
-        sb.append('=');
-        sb.append(((this.unitType == null)?"<null>":this.unitType));
+        sb.append(((this.dailyForecasts == null)?"<null>":this.dailyForecasts));
         sb.append(',');
         sb.append("additionalProperties");
         sb.append('=');

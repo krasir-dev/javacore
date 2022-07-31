@@ -1,6 +1,7 @@
 package Lesson7.project;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 
@@ -15,9 +16,11 @@ public class UserInterface {
             String city = scanner.nextLine();
             //city ="Irkutsk";
             setGlobalCity(city);
+            checkIsExit(city);
 
             System.out.println("Введите ответ: 1 - Получить текущую погоду, " +
                 "2 - Получить погоду на следующие 5 дней, " +
+                "3 - Чтение из базы всех данных, " +
                 "выход (exit) - завершить работу");
             String result = scanner.nextLine();
 
@@ -32,7 +35,7 @@ public class UserInterface {
 
             try {
                 notifyController(result);
-            } catch (IOException | ParseException e) {
+            } catch (IOException | ParseException | SQLException e) {
                 e.printStackTrace();
             }
 
@@ -57,13 +60,19 @@ public class UserInterface {
         }
         int answer = 0;
         try {
-            answer = Integer.parseInt(userInput);
+            if (Integer.parseInt(userInput) <= 3){
+                answer = Integer.parseInt(userInput);
+            }
+            else {
+                throw new IOException("Incorrect user input: expected 1, 2 or 3, but actually get " + userInput);
+            }
+
         } catch (NumberFormatException e) {
             throw new IOException("Incorrect user input: character is not numeric!");
         }
     }
 
-    private void notifyController(String input) throws IOException, ParseException {
+    private void notifyController(String input) throws IOException, ParseException, SQLException {
         controller.onUserInput(input);
     }
 

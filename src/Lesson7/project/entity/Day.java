@@ -1,5 +1,5 @@
 
-package Lesson7.project;
+package Lesson7.project.entity;
 
 import java.util.HashMap;
 import java.util.Map;

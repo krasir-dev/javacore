@@ -1,5 +1,5 @@
 
-package Lesson7.project;
+package Lesson7.project.entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,37 +13,50 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Minimum",
-    "Maximum"
+    "Value",
+    "Unit",
+    "UnitType"
 })
 //@Generated("jsonschema2pojo")
-public class Temperature {
+public class Maximum {
 
-    @JsonProperty("Minimum")
-    private Minimum minimum;
-    @JsonProperty("Maximum")
-    private Maximum maximum;
+    @JsonProperty("Value")
+    private Double value;
+    @JsonProperty("Unit")
+    private String unit;
+    @JsonProperty("UnitType")
+    private Integer unitType;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Minimum")
-    public Minimum getMinimum() {
-        return minimum;
+    @JsonProperty("Value")
+    public Double getValue() {
+        return value;
     }
 
-    @JsonProperty("Minimum")
-    public void setMinimum(Minimum minimum) {
-        this.minimum = minimum;
+    @JsonProperty("Value")
+    public void setValue(Double value) {
+        this.value = value;
     }
 
-    @JsonProperty("Maximum")
-    public Maximum getMaximum() {
-        return maximum;
+    @JsonProperty("Unit")
+    public String getUnit() {
+        return unit;
     }
 
-    @JsonProperty("Maximum")
-    public void setMaximum(Maximum maximum) {
-        this.maximum = maximum;
+    @JsonProperty("Unit")
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    @JsonProperty("UnitType")
+    public Integer getUnitType() {
+        return unitType;
+    }
+
+    @JsonProperty("UnitType")
+    public void setUnitType(Integer unitType) {
+        this.unitType = unitType;
     }
 
     @JsonAnyGetter
@@ -59,14 +72,18 @@ public class Temperature {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Temperature.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("minimum");
+        sb.append(Maximum.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("value");
         sb.append('=');
-        sb.append(((this.minimum == null)?"<null>":this.minimum));
+        sb.append(((this.value == null)?"<null>":this.value));
         sb.append(',');
-        sb.append("maximum");
+        sb.append("unit");
         sb.append('=');
-        sb.append(((this.maximum == null)?"<null>":this.maximum));
+        sb.append(((this.unit == null)?"<null>":this.unit));
+        sb.append(',');
+        sb.append("unitType");
+        sb.append('=');
+        sb.append(((this.unitType == null)?"<null>":this.unitType));
         sb.append(',');
         sb.append("additionalProperties");
         sb.append('=');

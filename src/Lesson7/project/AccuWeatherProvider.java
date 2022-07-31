@@ -1,7 +1,8 @@
 package Lesson7.project;
 
+import Lesson7.project.entity.WeatherData;
+            import Lesson7.project.entity.WeatherResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Lesson7.project.enums.Periods;
@@ -11,8 +12,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class AccuWeatherProvider implements WeatherProvider {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void getWeather(Periods periods) throws IOException, JsonProcessingException, ParseException {
+    public void getWeather(Periods periods) throws IOException, JsonProcessingException, ParseException, SQLException {
         String cityKey = detectCityKey();
         //String cityKey = "292712";
         if (periods.equals(Periods.NOW)) {
@@ -54,9 +57,18 @@ public class AccuWeatherProvider implements WeatherProvider {
             //String jsonResponse = "[{\"LocalObservationDateTime\":\"2022-07-12T16:27:00+08:00\",\"EpochTime\":1657614420,\"WeatherText\":\"Sunny\",\"WeatherIcon\":1,\"HasPrecipitation\":false,\"PrecipitationType\":null,\"IsDayTime\":true,\"Temperature\":{\"Metric\":{\"Value\":25.0,\"Unit\":\"C\",\"UnitType\":17},\"Imperial\":{\"Value\":77.0,\"Unit\":\"F\",\"UnitType\":18}},\"MobileLink\":\"http://www.accuweather.com/en/ru/irkutsk/292712/current-weather/292712?lang=en-us\",\"Link\":\"http://www.accuweather.com/en/ru/irkutsk/292712/current-weather/292712?lang=en-us\"}]";
 
             //JsonNode weatherText = objectMapper.readTree(jsonResponse).at("/WeatherText");
+            //System.out.println(jsonResponse);
 
-            System.out.println("Текущие погодные условия: " + objectMapper.readTree(jsonResponse).get(0).at("/WeatherText").asText());
-            System.out.println("Текущая температура воздуха С: " + objectMapper.readTree(jsonResponse).get(0).at("/Temperature/Metric/Value").asText());
+            WeatherData  weatherData = new WeatherData(ApplicationGlobalState.getInstance().getSelectedCity(),
+                    objectMapper.readTree(jsonResponse).get(0).at("/LocalObservationDateTime").asText(),
+                    objectMapper.readTree(jsonResponse).get(0).at("/WeatherText").asText(),
+                    objectMapper.readTree(jsonResponse).get(0).at("/Temperature/Metric/Value").asDouble());
+
+            DatabaseRepositorySQLiteImpl databaseRepositorySQLite = new DatabaseRepositorySQLiteImpl();
+            databaseRepositorySQLite.saveWeatherData(weatherData);
+
+            System.out.println("Текущие погодные условия: " + weatherData.getWeatherText());
+            System.out.println("Текущая температура воздуха С: " + weatherData.getTemperature());
 
 
 
@@ -85,6 +97,7 @@ public class AccuWeatherProvider implements WeatherProvider {
             String jsonResponse = response.body().string();
             //System.out.println(jsonResponse);
             //String jsonResponse = "{"Headline":{"EffectiveDate":"2022-07-22T01:00:00+08:00","EffectiveEpochDate":1658422800,"Severity":2,"Text":"Expect rainy weather late Thursday night through Saturday morning","Category":"rain","EndDate":"2022-07-23T13:00:00+08:00","EndEpochDate":1658552400,"MobileLink":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?lang=en-us","Link":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?lang=en-us"},"DailyForecasts":[{"Date":"2022-07-18T07:00:00+08:00","EpochDate":1658098800,"Temperature":{"Minimum":{"Value":58.0,"Unit":"F","UnitType":18},"Maximum":{"Value":84.0,"Unit":"F","UnitType":18}},"Day":{"Icon":14,"IconPhrase":"Partly sunny w/ showers","HasPrecipitation":true,"PrecipitationType":"Rain","PrecipitationIntensity":"Light"},"Night":{"Icon":35,"IconPhrase":"Partly cloudy","HasPrecipitation":false},"Sources":["AccuWeather"],"MobileLink":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=1&lang=en-us","Link":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=1&lang=en-us"},{"Date":"2022-07-19T07:00:00+08:00","EpochDate":1658185200,"Temperature":{"Minimum":{"Value":52.0,"Unit":"F","UnitType":18},"Maximum":{"Value":66.0,"Unit":"F","UnitType":18}},"Day":{"Icon":15,"IconPhrase":"Thunderstorms","HasPrecipitation":true,"PrecipitationType":"Rain","PrecipitationIntensity":"Light"},"Night":{"Icon":12,"IconPhrase":"Showers","HasPrecipitation":true,"PrecipitationType":"Rain","PrecipitationIntensity":"Moderate"},"Sources":["AccuWeather"],"MobileLink":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=2&lang=en-us","Link":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=2&lang=en-us"},{"Date":"2022-07-20T07:00:00+08:00","EpochDate":1658271600,"Temperature":{"Minimum":{"Value":51.0,"Unit":"F","UnitType":18},"Maximum":{"Value":69.0,"Unit":"F","UnitType":18}},"Day":{"Icon":12,"IconPhrase":"Showers","HasPrecipitation":true,"PrecipitationType":"Rain","PrecipitationIntensity":"Light"},"Night":{"Icon":34,"IconPhrase":"Mostly clear","HasPrecipitation":false},"Sources":["AccuWeather"],"MobileLink":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=3&lang=en-us","Link":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=3&lang=en-us"},{"Date":"2022-07-21T07:00:00+08:00","EpochDate":1658358000,"Temperature":{"Minimum":{"Value":54.0,"Unit":"F","UnitType":18},"Maximum":{"Value":72.0,"Unit":"F","UnitType":18}},"Day":{"Icon":6,"IconPhrase":"Mostly cloudy","HasPrecipitation":false},"Night":{"Icon":12,"IconPhrase":"Showers","HasPrecipitation":true,"PrecipitationType":"Rain","PrecipitationIntensity":"Moderate"},"Sources":["AccuWeather"],"MobileLink":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=4&lang=en-us","Link":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=4&lang=en-us"},{"Date":"2022-07-22T07:00:00+08:00","EpochDate":1658444400,"Temperature":{"Minimum":{"Value":54.0,"Unit":"F","UnitType":18},"Maximum":{"Value":70.0,"Unit":"F","UnitType":18}},"Day":{"Icon":18,"IconPhrase":"Rain","HasPrecipitation":true,"PrecipitationType":"Rain","PrecipitationIntensity":"Light"},"Night":{"Icon":12,"IconPhrase":"Showers","HasPrecipitation":true,"PrecipitationType":"Rain","PrecipitationIntensity":"Light"},"Sources":["AccuWeather"],"MobileLink":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=5&lang=en-us","Link":"http://www.accuweather.com/en/ru/irkutsk/292712/daily-weather-forecast/292712?day=5&lang=en-us"}]}";
+            List<WeatherData> weatherDataList = new ArrayList<>();
             WeatherResponse weatherResponses = objectMapper.readValue(jsonResponse, WeatherResponse.class);
             //System.out.println(weatherResponses.getDailyForecasts().toString());
             for (int i=0; i < weatherResponses.getDailyForecasts().size(); i++){
@@ -93,6 +106,16 @@ public class AccuWeatherProvider implements WeatherProvider {
                 SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
                 Date parsedDate = inputFormat.parse(date);
                 String formattedDate = outputFormat.format(parsedDate);
+
+                WeatherData  weatherData = new WeatherData(ApplicationGlobalState.getInstance().getSelectedCity(),
+                        formattedDate,
+                        weatherResponses.getDailyForecasts().get(i).getDay().getIconPhrase(),
+                        weatherResponses.getDailyForecasts().get(i).getTemperature().getMaximum().getValue());
+
+                //weatherDataList.add(i, weatherData);
+
+                DatabaseRepositorySQLiteImpl databaseRepositorySQLite = new DatabaseRepositorySQLiteImpl();
+                databaseRepositorySQLite.saveWeatherData(weatherData);
 
                 //String formattedDate = weatherResponses.getDailyForecasts().get(i).getDate();
                 System.out.println("В городе " + ApplicationGlobalState.getInstance().getSelectedCity() + " на дату " +
